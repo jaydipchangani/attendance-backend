@@ -75,8 +75,13 @@ export class UsersService {
       },
     });
   }
-s
+
   async remove(s_id: string) {
     return this.prisma.user.delete({ where: { s_id } });
   }
+
+  async findByEmail(email: string) {
+  return this.prisma.user.findUnique({ where: { email }});
 }
+}
+
