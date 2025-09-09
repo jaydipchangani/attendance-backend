@@ -40,4 +40,11 @@ export class UsersController {
   remove(@Param('s_id') s_id: string) {
     return this.usersService.remove(s_id);
   }
+
+  @Get('all-users-names')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  async getAllStudents() {
+    return this.usersService.getAllStudents();
+  }
 }

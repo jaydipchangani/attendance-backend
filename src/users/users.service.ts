@@ -83,5 +83,19 @@ export class UsersService {
   async findByEmail(email: string) {
   return this.prisma.user.findUnique({ where: { email }});
 }
+
+  async getAllStudents() {
+    return this.prisma.user.findMany({
+      where: { role: 'STUDENT' },
+      select: {
+        s_id: true,
+        first_name: true,
+        last_name: true,
+        email: true,
+        department: true,
+      },
+      orderBy: { first_name: 'asc' },
+    });
+  }
 }
 
