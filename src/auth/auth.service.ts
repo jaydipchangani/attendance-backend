@@ -30,6 +30,8 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(payload),
       expires_in: process.env.JWT_EXPIRES_IN || '3600s',
+      name: user.first_name + ' ' + user.last_name,
+      email: user.email,
       role: user.role
     };
   }
