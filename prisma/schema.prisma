@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  s_id         Int          @id @default(autoincrement())
+  s_id         String       @id @default(uuid())
   first_name   String
   last_name    String
   department   Department
@@ -22,11 +22,13 @@ model User {
 
 model Attendance {
   id        Int      @id @default(autoincrement())
-  studentId Int
+  studentId String
   date      DateTime
   status    Status
   createdAt DateTime @default(now())
   student   User     @relation(fields: [studentId], references: [s_id])
+
+  @@unique([studentId, date], name: "student_date_unique")
 }
 
 enum Role {
@@ -56,4 +58,3 @@ enum Department {
   MA
   BBA
 }
-
