@@ -1,3 +1,4 @@
+import { Department } from '@prisma/client';
 import { IsString, IsEmail, IsEnum, MinLength, IsDateString } from 'class-validator';
 import { Role } from 'src/common/enum/role.enum';
 
@@ -8,8 +9,8 @@ export class CreateUserDto {
   @IsString()
   last_name: string;
 
-  @IsString()
-  department: string;
+  @IsEnum(Department)
+  department: Department  ;
 
   @IsEmail()
   email: string;

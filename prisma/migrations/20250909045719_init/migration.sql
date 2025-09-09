@@ -4,12 +4,15 @@ CREATE TYPE "public"."Role" AS ENUM ('ADMIN', 'STUDENT');
 -- CreateEnum
 CREATE TYPE "public"."Status" AS ENUM ('PRESENT', 'ABSENT');
 
+-- CreateEnum
+CREATE TYPE "public"."Department" AS ENUM ('BTECH', 'BPHARM', 'MBA', 'MCA', 'MTECH', 'PHD', 'DIPLOMA', 'BCA', 'BSC', 'MSC', 'BCOM', 'MCOM', 'BA', 'MA', 'BBA');
+
 -- CreateTable
 CREATE TABLE "public"."User" (
-    "s_id" SERIAL NOT NULL,
+    "s_id" TEXT NOT NULL,
     "first_name" TEXT NOT NULL,
     "last_name" TEXT NOT NULL,
-    "department" TEXT NOT NULL,
+    "department" "public"."Department" NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "joining_date" TIMESTAMP(3) NOT NULL,
@@ -22,7 +25,7 @@ CREATE TABLE "public"."User" (
 -- CreateTable
 CREATE TABLE "public"."Attendance" (
     "id" SERIAL NOT NULL,
-    "studentId" INTEGER NOT NULL,
+    "studentId" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "status" "public"."Status" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

@@ -25,19 +25,19 @@ export class UsersController {
   }
 
   @Get(':s_id')
-  findOne(@Param('s_id', ParseIntPipe) s_id: number) {
+  findOne(@Param('s_id') s_id: string) {
     return this.usersService.findOne(s_id);
   }
 
   @Patch(':s_id')
   @Roles(Role.ADMIN)
-  update(@Param('s_id', ParseIntPipe) s_id: number, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param('s_id') s_id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(s_id, updateUserDto);
   }
 
   @Delete(':s_id')
   @Roles(Role.ADMIN)
-  remove(@Param('s_id', ParseIntPipe) s_id: number) {
+  remove(@Param('s_id') s_id: string) {
     return this.usersService.remove(s_id);
   }
 }

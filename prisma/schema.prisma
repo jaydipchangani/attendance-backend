@@ -11,7 +11,7 @@ model User {
   s_id         Int          @id @default(autoincrement())
   first_name   String
   last_name    String
-  department   String
+  department   Department
   email        String       @unique
   password     String
   joining_date DateTime
@@ -38,3 +38,22 @@ enum Status {
   PRESENT
   ABSENT
 }
+
+enum Department {
+  BTECH
+  BPHARM
+  MBA
+  MCA
+  MTECH
+  PHD
+  DIPLOMA
+  BCA
+  BSC
+  MSC
+  BCOM
+  MCOM
+  BA
+  MA
+  BBA
+}
+

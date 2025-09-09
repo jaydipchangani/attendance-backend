@@ -3,6 +3,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
+import { Department } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
@@ -11,20 +12,20 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
-    const user = await this.prisma.user.create({
-      data: {
-        first_name: createUserDto.first_name,
-        last_name: createUserDto.last_name,
-        department: createUserDto.department,
-        email: createUserDto.email,
-        password: hashedPassword,
-        joining_date: new Date(createUserDto.joining_date),
-        role: createUserDto.role,
-      },
-    });
+  const user = await this.prisma.user.create({
+    data: {
+      first_name: createUserDto.first_name,
+      last_name: createUserDto.last_name,
+      department: createUserDto.department,
+      email: createUserDto.email,
+      password: hashedPassword,
+      joining_date: new Date(createUserDto.joining_date),
+      role: createUserDto.role,
+    },
+  });
 
-    return user;
-  }
+  return user;
+}
 
   async findAll() {
     return this.prisma.user.findMany({
@@ -41,7 +42,7 @@ export class UsersService {
     });
   }
 
-  async findOne(s_id: number) {
+  async findOne(s_id: string) {
     const user = await this.prisma.user.findUnique({
       where: { s_id },
       select: {
@@ -59,7 +60,7 @@ export class UsersService {
     return user;
   }
 
-  async update(s_id: number, updateUserDto: UpdateUserDto) {
+  async update(s_id: string, updateUserDto: UpdateUserDto) {
     if (updateUserDto.password) {
       updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
     }
@@ -74,8 +75,8 @@ export class UsersService {
       },
     });
   }
-
-  async remove(s_id: number) {
+s
+  async remove(s_id: string) {
     return this.prisma.user.delete({ where: { s_id } });
   }
 }
