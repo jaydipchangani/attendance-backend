@@ -42,4 +42,11 @@ export class AttendanceController {
 
     return this.attendanceService.getAttendanceByStudent(s_id, query.from, query.to);
   }
+
+   @Get('all')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  async getAllAttendance(@Query() query: GetAttendanceQueryDto) {
+    return this.attendanceService.getAllAttendance(query.from, query.to);
+  }
 }

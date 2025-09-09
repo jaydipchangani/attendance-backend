@@ -73,4 +73,55 @@ export class AttendanceService {
       },
     });
   }
+
+  async getAllAttendance(from?: string, to?: string) {
+  const where: any = {};
+
+  if (from || to) {
+    where.date = {};
+    if (from) where.date.gte = this.normalizeDateToUTCStart(from);
+    if (to) {
+      const toDate = this.normalizeDateToUTCStart(to);
+      toDate.setUTCHours(23, 59, 59, 999);
+      where.date.lte = toDate;
+    }
+  }
+
+  // Group by studentId and count PRESENT days
+  const grouped = await this.prisma.attendance.groupBy({
+    by: ['studentId'],
+    where: {
+      ...where,
+      status: 'PRESENT',
+    },
+    _count: {
+      status: true,
+    },
+  });
+
+  // Fetch student details for those studentIds
+  const studentIds = grouped.map(g => g.studentId);
+  const students = await this.prisma.user.findMany({
+    where: { s_id: { in: studentIds } },
+    select: {
+      s_id: true,
+      first_name: true,
+      last_name: true,
+      email: true,
+      department: true,
+      role: true,
+    },
+  });
+
+  // Merge counts with student details
+  return grouped.map(g => {
+    const student = students.find(s => s.s_id === g.studentId);
+    return {
+      student,
+      totalPresentDays: g._count.status,
+    };
+  });
+}
+
+
 }
